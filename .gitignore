@@ -146,3 +146,5 @@ gradle-app.setting
 *.xml
 
 *.iml
+
+*.ipr
