@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ghrobotics.lib.localization.Localization;
 import org.ghrobotics.lib.localization.TankEncoderLocalization;
@@ -12,6 +13,7 @@ import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
 import org.ghrobotics.lib.mathematics.units.Length;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
+import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitModel;
@@ -28,13 +30,13 @@ public class Drivetrain extends Subsystem {
 // here. Call these from Commands.
 
     public Point currentLocation = new Point(0, 0);
-    NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(4096), LengthKt.getMeter());
-    private final FalconSRX<Length> leftMaster = new FalconSRX<Length>(0, );
+    NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
+    private final FalconSRX<Length> leftMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> rightMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
     private final VictorSPX leftSlave1 = new VictorSPX(0);
     private final VictorSPX leftSlave2 = new VictorSPX(0);
 
-    private final TalonSRX rightMaster = new TalonSRX(0);
     private final VictorSPX rightSlave1 = new VictorSPX(0);
     private final VictorSPX rightSlave2 = new VictorSPX(0);
 
