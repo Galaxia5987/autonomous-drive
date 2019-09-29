@@ -92,6 +92,10 @@ public class Drivetrain extends Subsystem {
         return navx.getAngle();
     }
 
+    public TrajectoryTracker getTrajectoryTracker() {
+        return trajectoryTracker;
+    }
+    
 
     @Override
     public void initDefaultCommand() {
