@@ -20,7 +20,6 @@ public class trajectoryTrackerCommand extends Command {
 
     @Override
     protected void execute() {
-        trajectoryTrack.state
     }
 
     @Override
