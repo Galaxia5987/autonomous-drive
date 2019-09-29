@@ -19,8 +19,8 @@ public class drivetrainConstants {
     public static final double kADriveRightLow = 0; // Volts per radians per second per second
     public static final double kVInterceptRightLow = 0; // Volts
 
-    public static final double MOMENT_OF_INERTIA = 0;// kg m^2
-    public static final double ANGULAR_DRAG = 0;// N*m / (rad/sec)
+    public static final double MOMENT_OF_INERTIA = 10;// kg m^2
+    public static final double ANGULAR_DRAG = 12;// N*m / (rad/sec)
 
 
 }
