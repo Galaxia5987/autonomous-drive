@@ -46,10 +46,17 @@ public class Drivetrain extends Subsystem {
             () -> LengthKt.getMeter(getRightDistance())
     );
 
+
     public TrajectoryTracker trajectoryTracker = new RamseteTracker(drivetrainConstants.kBeta, drivetrainConstants.kZeta);
 
 
     public Drivetrain() {
+
+        Notifier localizationNotifier = new Notifier(() -> {
+            localization.update();
+        });
+        localizationNotifier.startPeriodic(1d/100d);
+
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
