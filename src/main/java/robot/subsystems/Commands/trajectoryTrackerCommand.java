@@ -37,6 +37,7 @@ public class trajectoryTrackerCommand extends Command {
             waypoints.add(0, drivetrain.localization.getRobotPosition());
             this.trajectory = drivetrain.generateTrajectory(waypoints, startingVelocity, endingVelocity, reversed);
         }
+        drivetrain.trajectoryTracker.reset(trajectory);
         LiveDashboard.INSTANCE.setFollowingPath(true);
 
     }
