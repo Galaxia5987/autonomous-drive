@@ -80,15 +80,15 @@ public class Drivetrain extends TankDriveSubsystem
 
     }
 
-    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(
-            1 / drivetrainConstants.kADriveLeftLow,
-            Math.pow(drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.WHEEL_RADIUS) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
-            drivetrainConstants.kVDriveLeftLow);
+    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
+            drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.ROBOT_MASS/ (2.0 * drivetrainConstants.kADriveLeftLow),
+            drivetrainConstants.kVInterceptLeftLow);
 
-    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(
-            1 / drivetrainConstants.kADriveRightLow,
-            Math.pow(drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.WHEEL_RADIUS) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
-            drivetrainConstants.kVDriveRightLow);
+
+    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
+            drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.ROBOT_MASS/ (2.0 * drivetrainConstants.kADriveRightLow),
+            drivetrainConstants.kVInterceptRightLow);
+
 
     public double getAngle(boolean reversed) {
         return reversed ? navx.getAngle() : (navx.getAngle()+180)%360;
