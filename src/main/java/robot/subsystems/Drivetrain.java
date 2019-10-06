@@ -51,7 +51,7 @@ public class Drivetrain extends TankDriveSubsystem
     private final VictorSPX rightSlave2 = new VictorSPX(0);
 
     public Localization localization = new TankEncoderLocalization(
-            () -> Rotation2dKt.getDegree(getAngle()),
+            () -> Rotation2dKt.getDegree(getAngle(false)),
             leftMaster::getSensorPosition,
             rightMaster::getSensorPosition
     );
