@@ -13,18 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class drivetrainConstants {
-    public static final double TICKS_PER_METER = 0;
     public static final double TICKS_PER_ROTATION = 0;
     public static final double ROBOT_MASS = 0; //Robot Mass + 5kg for the battery + 2kg for the bumpers
 
-    public static final double MAX_VELOCITY = 0;
-    public static final double MAX_ACCEL = 0;
+    public static final double MAX_VELOCITY = 2;
+    public static final double MAX_ACCEL = 2;
 
     public static final double WHEEL_RADIUS = 0; // meters. TODO tune
     public static final double ROBOT_WIDTH = 0; // meters
 
-    public static final double kBeta = 0;
-    public static final double kZeta = 0;
+    public static final double kBeta = 2;
+    public static final double kZeta = 0.7;
 
     public static final double kVDriveLeftLow = 0; // Volts per radians per second - Calculated emperically
     public static final double kADriveLeftLow = 0; // Volts per radians per second per second
