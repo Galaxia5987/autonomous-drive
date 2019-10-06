@@ -1,7 +1,6 @@
 package robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
 import edu.wpi.first.wpilibj.Notifier;
@@ -16,7 +15,6 @@ import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
-import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitModel;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 import robot.utilities.Point;
 
@@ -42,8 +40,8 @@ public class Drivetrain extends Subsystem {
 
     public Localization localization = new TankEncoderLocalization(
             () -> Rotation2dKt.getDegree(getAngle()),
-            () -> LengthKt.getMeter(getLeftDistance()),
-            () -> LengthKt.getMeter(getRightDistance())
+            leftMaster::getSensorPosition,
+            rightMaster::getSensorPosition
     );
 
 
@@ -55,7 +53,7 @@ public class Drivetrain extends Subsystem {
         Notifier localizationNotifier = new Notifier(() -> {
             localization.update();
         });
-        localizationNotifier.startPeriodic(1d/100d);
+        localizationNotifier.startPeriodic(1d / 100d);
 
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -80,14 +78,6 @@ public class Drivetrain extends Subsystem {
             Math.pow(drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.WHEEL_RADIUS) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVDriveRightLow);
 
-    public double getRightDistance() {
-        return rightMaster.getSelectedSensorPosition() / drivetrainConstants.TICKS_PER_METER;
-    }
-
-    public double getLeftDistance() {
-        return leftMaster.getSelectedSensorPosition() / drivetrainConstants.TICKS_PER_METER;
-    }
-
     public double getAngle() {
         return navx.getAngle();
     }
@@ -95,7 +85,7 @@ public class Drivetrain extends Subsystem {
     public TrajectoryTracker getTrajectoryTracker() {
         return trajectoryTracker;
     }
-    
+
 
     @Override
     public void initDefaultCommand() {
