@@ -8,7 +8,9 @@ import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Translation2d;
+import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedEntry;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
+import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TrajectorySamplePoint;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
 import robot.subsystems.drivetrainConstants;
@@ -57,6 +59,17 @@ public class trajectoryTrackerCommand extends Command {
 
         drivetrain.setOutput(trackerOutput);
 
+        TrajectorySamplePoint<TimedEntry<Pose2dWithCurvature>> referencePoint = trajectoryTrack.getReferencePoint();
+
+        if (referencePoint != null) {
+            Pose2d referencePose = referencePoint.getState().getState().getPose();
+
+            LiveDashboard.INSTANCE.setPathX(referencePose.getTranslation().getX().getFeet());
+            LiveDashboard.INSTANCE.setPathY(referencePose.getTranslation().getY().getFeet());
+            LiveDashboard.INSTANCE.setPathHeading(referencePose.getRotation().getRadian());
+
+        }
+
 
 
     }
@@ -75,5 +88,6 @@ public class trajectoryTrackerCommand extends Command {
 
     @Override
     protected void interrupted() {
+
     }
 }
