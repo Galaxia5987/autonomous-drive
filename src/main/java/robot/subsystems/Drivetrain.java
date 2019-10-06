@@ -90,8 +90,8 @@ public class Drivetrain extends TankDriveSubsystem
             Math.pow(drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.WHEEL_RADIUS) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVDriveRightLow);
 
-    public double getAngle() {
-        return navx.getAngle();
+    public double getAngle(boolean reversed) {
+        return reversed ? navx.getAngle() : (navx.getAngle()+180)%360;
     }
 
     public TrajectoryTracker getTrajectoryTracker() {
