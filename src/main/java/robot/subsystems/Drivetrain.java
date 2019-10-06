@@ -1,7 +1,6 @@
 package robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
 import edu.wpi.first.wpilibj.Notifier;
@@ -13,17 +12,16 @@ import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.TrajectoryGeneratorKt;
-import org.ghrobotics.lib.mathematics.twodim.trajectory.constraints.TimingConstraint;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.units.Length;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
+import org.ghrobotics.lib.mathematics.units.derivedunits.AccelerationKt;
+import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
-import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitModel;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
-import robot.utilities.Point;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,6 @@ public class Drivetrain extends Subsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-    public Point currentLocation = new Point(0, 0);
     NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
     private final FalconSRX<Length> leftMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
     private final FalconSRX<Length> rightMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
@@ -111,6 +108,16 @@ public class Drivetrain extends Subsystem {
     }
 
     public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(ArrayList<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
-        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints,)
+        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, drivetrainConstants.constraints,
+                VelocityKt.getVelocity(LengthKt.getMegameter(startingVelocity)),
+                VelocityKt.getVelocity(LengthKt.getMeter(endingVelocity)),
+                VelocityKt.getVelocity(LengthKt.getMeter(drivetrainConstants.MAX_VELOCITY)),
+                AccelerationKt.getAcceleration(LengthKt.getMeter(drivetrainConstants.MAX_ACCEL)),
+                reversed,
+                true);
+    }
+
+    public static double velocityByDistance(double targetSpeed, double acceleration, double startPos, double targetPos) {
+        return Math.sqrt(targetSpeed * targetSpeed + 2 * Math.abs(acceleration) * Math.abs(targetPos - startPos));
     }
 }
