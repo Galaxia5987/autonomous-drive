@@ -10,6 +10,11 @@ import org.ghrobotics.lib.localization.Localization;
 import org.ghrobotics.lib.localization.TankEncoderLocalization;
 import org.ghrobotics.lib.mathematics.twodim.control.RamseteTracker;
 import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
+import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
+import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
+import org.ghrobotics.lib.mathematics.twodim.trajectory.TrajectoryGeneratorKt;
+import org.ghrobotics.lib.mathematics.twodim.trajectory.constraints.TimingConstraint;
+import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.units.Length;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
@@ -19,6 +24,8 @@ import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitModel;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 import robot.utilities.Point;
+
+import java.util.ArrayList;
 
 import static robot.Robot.navx;
 
@@ -101,5 +108,9 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+    }
+
+    public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(ArrayList<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
+        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints,)
     }
 }

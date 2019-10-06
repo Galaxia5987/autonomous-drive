@@ -5,6 +5,9 @@ public class drivetrainConstants {
     public static final double TICKS_PER_ROTATION = 0;
     public static final double ROBOT_MASS = 0; //Robot Mass + 5kg for the battery + 2kg for the bumpers
 
+    public static final double MAX_VELOCITY = 0;
+    public static final double MAX_ACCEL = 0;
+
     public static final double WHEEL_RADIUS = 0; // meters. TODO tune
     public static final double ROBOT_WIDTH = 0; // meters
 
