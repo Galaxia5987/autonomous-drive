@@ -35,8 +35,8 @@ public class Drivetrain extends Subsystem {
 // here. Call these from Commands.
 
     NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
-    private final FalconSRX<Length> leftMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    private final FalconSRX<Length> rightMaster = new FalconSRX<Length>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> leftMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> rightMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
     private final VictorSPX leftSlave1 = new VictorSPX(0);
     private final VictorSPX leftSlave2 = new VictorSPX(0);
@@ -46,8 +46,8 @@ public class Drivetrain extends Subsystem {
 
     public Localization localization = new TankEncoderLocalization(
             () -> Rotation2dKt.getDegree(getAngle()),
-            () -> LengthKt.getMeter(getLeftDistance()),
-            () -> LengthKt.getMeter(getRightDistance())
+            leftMaster::getSensorPosition,
+            rightMaster::getSensorPosition
     );
 
 
@@ -59,7 +59,7 @@ public class Drivetrain extends Subsystem {
         Notifier localizationNotifier = new Notifier(() -> {
             localization.update();
         });
-        localizationNotifier.startPeriodic(1d/100d);
+        localizationNotifier.startPeriodic(1d / 100d);
 
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -84,14 +84,6 @@ public class Drivetrain extends Subsystem {
             Math.pow(drivetrainConstants.WHEEL_RADIUS, drivetrainConstants.WHEEL_RADIUS) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVDriveRightLow);
 
-    public double getRightDistance() {
-        return rightMaster.getSelectedSensorPosition() / drivetrainConstants.TICKS_PER_METER;
-    }
-
-    public double getLeftDistance() {
-        return leftMaster.getSelectedSensorPosition() / drivetrainConstants.TICKS_PER_METER;
-    }
-
     public double getAngle() {
         return navx.getAngle();
     }
@@ -99,7 +91,7 @@ public class Drivetrain extends Subsystem {
     public TrajectoryTracker getTrajectoryTracker() {
         return trajectoryTracker;
     }
-    
+
 
     @Override
     public void initDefaultCommand() {
