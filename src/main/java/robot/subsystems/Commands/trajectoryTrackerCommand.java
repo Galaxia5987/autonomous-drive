@@ -3,11 +3,9 @@ package robot.subsystems.Commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ghrobotics.lib.debug.LiveDashboard;
-import org.ghrobotics.lib.localization.Localization;
 import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
-import org.ghrobotics.lib.mathematics.twodim.geometry.Translation2d;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedEntry;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TrajectorySamplePoint;
@@ -15,14 +13,14 @@ import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
 import robot.subsystems.drivetrainConstants;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static robot.Robot.drivetrain;
 
 public class trajectoryTrackerCommand extends Command {
 
     private TrajectoryTracker trajectoryTrack;
-    private ArrayList<Pose2d> waypoints;
+    private List<Pose2d> waypoints;
     private double startingVelocity;
     private double endingVelocity;
     private TimedTrajectory<Pose2dWithCurvature> trajectory;
@@ -31,7 +29,7 @@ public class trajectoryTrackerCommand extends Command {
     private double maxVelocity = drivetrainConstants.MAX_VELOCITY;
     private double maxAcceleration = drivetrainConstants.MAX_ACCEL;
 
-    public trajectoryTrackerCommand(ArrayList<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed){
+    public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
         trajectoryTrack = drivetrain.getTrajectoryTracker();
         this.waypoints = waypoints;
         this.startingVelocity = startingVelocity;
@@ -39,6 +37,7 @@ public class trajectoryTrackerCommand extends Command {
         this.reversed = reversed;
 
     }
+
     @Override
     protected void initialize() {
         if (waypoints != null) {
@@ -48,15 +47,11 @@ public class trajectoryTrackerCommand extends Command {
         }
         drivetrain.trajectoryTracker.reset(trajectory);
         LiveDashboard.INSTANCE.setFollowingPath(true);
-
-
     }
 
     @Override
     protected void execute() {
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
-
-
         drivetrain.setOutput(trackerOutput);
 
         TrajectorySamplePoint<TimedEntry<Pose2dWithCurvature>> referencePoint = trajectoryTrack.getReferencePoint();
@@ -67,11 +62,7 @@ public class trajectoryTrackerCommand extends Command {
             LiveDashboard.INSTANCE.setPathX(referencePose.getTranslation().getX().getFeet());
             LiveDashboard.INSTANCE.setPathY(referencePose.getTranslation().getY().getFeet());
             LiveDashboard.INSTANCE.setPathHeading(referencePose.getRotation().getRadian());
-
         }
-
-
-
     }
 
     @Override

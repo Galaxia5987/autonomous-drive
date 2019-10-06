@@ -1,12 +1,10 @@
 package robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
 import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ghrobotics.lib.localization.Localization;
 import org.ghrobotics.lib.localization.TankEncoderLocalization;
 import org.ghrobotics.lib.mathematics.twodim.control.RamseteTracker;
@@ -28,15 +26,14 @@ import org.ghrobotics.lib.wrappers.FalconMotor;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static robot.Robot.navx;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class Drivetrain extends TankDriveSubsystem
-{
+public class Drivetrain extends TankDriveSubsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
@@ -81,17 +78,17 @@ public class Drivetrain extends TankDriveSubsystem
     }
 
     public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
-            drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.ROBOT_MASS/ (2.0 * drivetrainConstants.kADriveLeftLow),
+            drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
             drivetrainConstants.kVInterceptLeftLow);
 
 
     public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
-            drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.WHEEL_RADIUS* drivetrainConstants.ROBOT_MASS/ (2.0 * drivetrainConstants.kADriveRightLow),
+            drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVInterceptRightLow);
 
 
     public double getAngle(boolean reversed) {
-        return reversed ? navx.getAngle() : (navx.getAngle()+180)%360;
+        return reversed ? navx.getAngle() : (navx.getAngle() + 180) % 360;
     }
 
     public TrajectoryTracker getTrajectoryTracker() {
@@ -110,18 +107,15 @@ public class Drivetrain extends TankDriveSubsystem
     );
 
 
-    public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(ArrayList<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
+    public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
         return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, drivetrainConstants.constraints,
-                VelocityKt.getVelocity(LengthKt.getMegameter(startingVelocity)),
+                VelocityKt.getVelocity(LengthKt.getMeter(startingVelocity)),
                 VelocityKt.getVelocity(LengthKt.getMeter(endingVelocity)),
                 VelocityKt.getVelocity(LengthKt.getMeter(drivetrainConstants.MAX_VELOCITY)),
                 AccelerationKt.getAcceleration(LengthKt.getMeter(drivetrainConstants.MAX_ACCEL)),
                 reversed,
-                true);
-    }
-
-    public static double velocityByDistance(double targetSpeed, double acceleration, double startPos, double targetPos) {
-        return Math.sqrt(targetSpeed * targetSpeed + 2 * Math.abs(acceleration) * Math.abs(targetPos - startPos));
+                true
+        );
     }
 
     @NotNull

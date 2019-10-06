@@ -7,15 +7,11 @@
 
 package robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.POVButton;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import robot.subsystems.Commands.DriveCommand;
+import robot.paths.Test;
+import robot.subsystems.Commands.trajectoryTrackerCommand;
 
 
 /**
@@ -23,11 +19,11 @@ import robot.subsystems.Commands.DriveCommand;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-
-
+    XboxController xbox = new XboxController(2);
+    Button A = new JoystickButton(xbox, 1);
 
     public OI() {
-
+        A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false));
     }
 
 
