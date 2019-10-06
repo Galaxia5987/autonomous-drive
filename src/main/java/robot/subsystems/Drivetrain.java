@@ -1,8 +1,10 @@
 package robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
+import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ghrobotics.lib.localization.Localization;
@@ -22,7 +24,9 @@ import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
 import org.ghrobotics.lib.subsystems.drive.TankDriveSubsystem;
+import org.ghrobotics.lib.wrappers.FalconMotor;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -32,6 +36,7 @@ import static robot.Robot.navx;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Drivetrain extends TankDriveSubsystem
+{
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
@@ -94,11 +99,16 @@ public class Drivetrain extends TankDriveSubsystem
     }
 
 
-    @Override
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
-    }
+    public static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
+            drivetrainConstants.ROBOT_MASS,
+            drivetrainConstants.MOMENT_OF_INERTIA,
+            drivetrainConstants.ANGULAR_DRAG,
+            drivetrainConstants.WHEEL_RADIUS,
+            drivetrainConstants.ROBOT_WIDTH / 2.0,
+            leftTransmissionModel,
+            rightTransmissionModel
+    );
+
 
     public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(ArrayList<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
         return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, drivetrainConstants.constraints,
@@ -112,5 +122,29 @@ public class Drivetrain extends TankDriveSubsystem
 
     public static double velocityByDistance(double targetSpeed, double acceleration, double startPos, double targetPos) {
         return Math.sqrt(targetSpeed * targetSpeed + 2 * Math.abs(acceleration) * Math.abs(targetPos - startPos));
+    }
+
+    @NotNull
+    @Override
+    public Localization getLocalization() {
+        return localization;
+    }
+
+    @NotNull
+    @Override
+    public DifferentialDrive getDifferentialDrive() {
+        return DIFFERENTIAL_DRIVE;
+    }
+
+    @NotNull
+    @Override
+    public FalconMotor<Length> getLeftMotor() {
+        return leftMaster;
+    }
+
+    @NotNull
+    @Override
+    public FalconMotor<Length> getRightMotor() {
+        return rightMaster;
     }
 }
