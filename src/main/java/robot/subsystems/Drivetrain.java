@@ -21,6 +21,7 @@ import org.ghrobotics.lib.mathematics.units.derivedunits.AccelerationKt;
 import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
+import org.ghrobotics.lib.subsystems.drive.TankDriveSubsystem;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import static robot.Robot.navx;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends TankDriveSubsystem
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
