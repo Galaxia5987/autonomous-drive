@@ -19,8 +19,8 @@ import robot.subsystems.Commands.trajectoryTrackerCommand;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    XboxController xbox = new XboxController(2);
-    Button A = new JoystickButton(xbox, 1);
+    private XboxController xbox = new XboxController(2);
+    private Button A = new JoystickButton(xbox, 1);
 
     public OI() {
         A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false));
