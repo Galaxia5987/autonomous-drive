@@ -37,18 +37,12 @@ public class Drivetrain extends TankDriveSubsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-    NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
+    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
     private final FalconSRX<Length> leftMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
     private final FalconSRX<Length> rightMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
-    private final VictorSPX leftSlave1 = new VictorSPX(0);
-    private final VictorSPX leftSlave2 = new VictorSPX(0);
-
-    private final VictorSPX rightSlave1 = new VictorSPX(0);
-    private final VictorSPX rightSlave2 = new VictorSPX(0);
-
     public Localization localization = new TankEncoderLocalization(
-            () -> Rotation2dKt.getDegree(getAngle(false)),
+            () -> Rotation2dKt.getDegree(getAngle()),
             leftMaster::getSensorPosition,
             rightMaster::getSensorPosition
     );
@@ -68,27 +62,31 @@ public class Drivetrain extends TankDriveSubsystem {
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 
+        VictorSPX leftSlave1 = new VictorSPX(0);
         leftSlave1.follow(leftMaster);
+        VictorSPX leftSlave2 = new VictorSPX(0);
         leftSlave2.follow(leftMaster);
 
+        VictorSPX rightSlave1 = new VictorSPX(0);
         rightSlave1.follow(rightMaster);
+        VictorSPX rightSlave2 = new VictorSPX(0);
         rightSlave2.follow(rightMaster);
 
 
     }
 
-    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
+    private static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
             drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
             drivetrainConstants.kVInterceptLeftLow);
 
 
-    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
+    private static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
             drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVInterceptRightLow);
 
 
-    public double getAngle(boolean reversed) {
-        return reversed ? navx.getAngle() : (navx.getAngle() + 180) % 360;
+    private double getAngle() {
+        return false ? navx.getAngle() : (navx.getAngle() + 180) % 360;
     }
 
     public TrajectoryTracker getTrajectoryTracker() {
@@ -96,7 +94,7 @@ public class Drivetrain extends TankDriveSubsystem {
     }
 
 
-    public static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
+    private static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
             drivetrainConstants.ROBOT_MASS,
             drivetrainConstants.MOMENT_OF_INERTIA,
             drivetrainConstants.ANGULAR_DRAG,
