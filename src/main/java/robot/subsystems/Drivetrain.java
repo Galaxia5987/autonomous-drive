@@ -72,6 +72,9 @@ public class Drivetrain extends TankDriveSubsystem {
         VictorSPX rightSlave2 = new VictorSPX(0);
         rightSlave2.follow(rightMaster);
 
+        rightMaster.setInverted(true);
+        rightSlave1.setInverted(true);
+        rightSlave2.setInverted(true);
 
     }
 
