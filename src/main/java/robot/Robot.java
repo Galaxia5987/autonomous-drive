@@ -12,7 +12,19 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
+import org.ghrobotics.lib.mathematics.units.LengthKt;
+import org.ghrobotics.lib.mathematics.units.Rotation2d;
+import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
+import robot.subsystems.Commands.trajectoryTrackerCommand;
+import robot.subsystems.Commands.velocityDrive;
 import robot.subsystems.Drivetrain;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 
 /**
@@ -82,6 +94,15 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+
+        drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(0), LengthKt.getMeter(0), Rotation2dKt.getDegree(0)));
+        List<Pose2d> path = new ArrayList<>(Arrays.asList(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(0), Rotation2dKt.getDegree(0))));
+        trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false);
+        tracker.start();
+//        velocityDrive veldrive = new velocityDrive(1, 1);
+//        veldrive.start();
+
+
         m_autonomousCommand = m_chooser.getSelected();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.start();
