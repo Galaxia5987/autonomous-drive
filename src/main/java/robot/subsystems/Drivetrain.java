@@ -1,5 +1,6 @@
 package robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
@@ -18,6 +19,7 @@ import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.mathematics.units.derivedunits.AccelerationKt;
+import org.ghrobotics.lib.mathematics.units.derivedunits.Velocity;
 import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
 import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
@@ -34,12 +36,13 @@ import static robot.Robot.navx;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Drivetrain extends TankDriveSubsystem {
+
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
     private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
-    private final FalconSRX<Length> leftMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    private final FalconSRX<Length> rightMaster = new FalconSRX<>(0, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
     public Localization localization = new TankEncoderLocalization(
             () -> Rotation2dKt.getDegree(getAngle()),
@@ -53,6 +56,8 @@ public class Drivetrain extends TankDriveSubsystem {
 
     public Drivetrain() {
 
+
+
         Notifier localizationNotifier = new Notifier(() -> {
             localization.update();
         });
@@ -62,19 +67,32 @@ public class Drivetrain extends TankDriveSubsystem {
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 
-        VictorSPX leftSlave1 = new VictorSPX(0);
+        VictorSPX leftSlave1 = new VictorSPX(4);
         leftSlave1.follow(leftMaster);
-        VictorSPX leftSlave2 = new VictorSPX(0);
+        VictorSPX leftSlave2 = new VictorSPX(5);
         leftSlave2.follow(leftMaster);
 
-        VictorSPX rightSlave1 = new VictorSPX(0);
+        VictorSPX rightSlave1 = new VictorSPX(7);
         rightSlave1.follow(rightMaster);
-        VictorSPX rightSlave2 = new VictorSPX(0);
+        VictorSPX rightSlave2 = new VictorSPX(8);
         rightSlave2.follow(rightMaster);
+
+        leftMaster.config_kP(0, drivetrainConstants.TALON_VELOCITY_PID[0]);
+        rightMaster.config_kP(0, drivetrainConstants.TALON_VELOCITY_PID[0]);
+//        leftMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
+//        rightMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
 
         rightMaster.setInverted(true);
         rightSlave1.setInverted(true);
         rightSlave2.setInverted(true);
+    }
+
+    public double getRightVelocity(){
+        return rightMaster.getSensorVelocity().getValue();
+    }
+
+    public double getLeftVelocity(){
+        return leftMaster.getSensorVelocity().getValue();
 
     }
 
@@ -142,4 +160,10 @@ public class Drivetrain extends TankDriveSubsystem {
     public FalconMotor<Length> getRightMotor() {
         return rightMaster;
     }
+
+    public void setVelocity(double leftVelocity, double rightVelocity){
+        leftMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(leftVelocity)));
+        rightMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(rightVelocity)));
+    }
+
 }
