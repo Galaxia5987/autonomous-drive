@@ -2,6 +2,7 @@ package robot.subsystems.Commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.ghrobotics.lib.debug.LiveDashboard;
 import org.ghrobotics.lib.mathematics.twodim.control.TrajectoryTracker;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
@@ -9,6 +10,8 @@ import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedEntry;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TrajectorySamplePoint;
+import org.ghrobotics.lib.mathematics.units.LengthKt;
+import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
 import robot.subsystems.drivetrainConstants;
@@ -40,6 +43,8 @@ public class trajectoryTrackerCommand extends Command {
 
     @Override
     protected void initialize() {
+        drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(1), Rotation2dKt.getDegree(0)));
+
         if (waypoints != null) {
             waypoints.add(0, drivetrain.localization.getRobotPosition());
             this.trajectory = drivetrain.generateTrajectory(waypoints, startingVelocity, endingVelocity, reversed);
@@ -51,6 +56,7 @@ public class trajectoryTrackerCommand extends Command {
 
     @Override
     protected void execute() {
+        SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
         drivetrain.setOutput(trackerOutput);
 
@@ -75,6 +81,7 @@ public class trajectoryTrackerCommand extends Command {
     protected void end() {
         drivetrain.zeroOutputs();
         LiveDashboard.INSTANCE.setFollowingPath(false);
+        System.out.println("done");
     }
 
     @Override
