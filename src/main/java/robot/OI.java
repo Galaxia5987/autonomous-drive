@@ -7,6 +7,7 @@
 
 package robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -21,6 +22,8 @@ import robot.subsystems.Commands.trajectoryTrackerCommand;
 public class OI {
     private XboxController xbox = new XboxController(2);
     private Button A = new JoystickButton(xbox, 1);
+    public Joystick leftStick = new Joystick(0);
+    public Joystick rightStick = new Joystick(1);
 
     public OI() {
         A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false));
