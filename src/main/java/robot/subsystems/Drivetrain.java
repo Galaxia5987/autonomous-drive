@@ -2,6 +2,7 @@ package robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.team254.lib.physics.DCMotorTransmission;
 import com.team254.lib.physics.DifferentialDrive;
@@ -78,9 +79,37 @@ public class Drivetrain extends TankDriveSubsystem {
         rightSlave2.follow(rightMaster);
 
         leftMaster.config_kP(0, drivetrainConstants.TALON_VELOCITY_PID[0]);
+        leftMaster.config_kI(0, drivetrainConstants.TALON_VELOCITY_PID[1]);
+        leftMaster.config_kD(0, drivetrainConstants.TALON_VELOCITY_PID[2]);
+        leftMaster.config_kF(0, drivetrainConstants.TALON_VELOCITY_PID[3]);
+
         rightMaster.config_kP(0, drivetrainConstants.TALON_VELOCITY_PID[0]);
+        rightMaster.config_kI(0, drivetrainConstants.TALON_VELOCITY_PID[1]);
+        rightMaster.config_kD(0, drivetrainConstants.TALON_VELOCITY_PID[2]);
+        rightMaster.config_kF(0, drivetrainConstants.TALON_VELOCITY_PID[3]);
+
+        rightMaster.configVoltageCompSaturation(11.0);
+        leftMaster.configVoltageCompSaturation(11.0);
+        leftSlave1.configVoltageCompSaturation(11.0);
+        leftSlave2.configVoltageCompSaturation(11.0);
+        rightSlave1.configVoltageCompSaturation(11.0);
+        rightSlave2.configVoltageCompSaturation(11.0);
+
+        rightMaster.enableVoltageCompensation(true);
+        leftMaster.enableVoltageCompensation(true);
+        leftSlave1.enableVoltageCompensation(true);
+        leftSlave2.enableVoltageCompensation(true);
+        rightSlave1.enableVoltageCompensation(true);
+        rightSlave2.enableVoltageCompensation(true);
 //        leftMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
 //        rightMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
+
+        leftMaster.setNeutralMode(NeutralMode.Coast);
+        leftSlave1.setNeutralMode(NeutralMode.Coast);
+        leftSlave2.setNeutralMode(NeutralMode.Coast);
+        rightMaster.setNeutralMode(NeutralMode.Coast);
+        rightSlave1.setNeutralMode(NeutralMode.Coast);
+        rightSlave2.setNeutralMode(NeutralMode.Coast);
 
         rightMaster.setInverted(true);
         rightSlave1.setInverted(true);
@@ -165,5 +194,6 @@ public class Drivetrain extends TankDriveSubsystem {
         leftMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(leftVelocity)));
         rightMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(rightVelocity)));
     }
+
 
 }
