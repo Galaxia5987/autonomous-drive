@@ -24,11 +24,11 @@ import robot.subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
-    public static Drivetrain drivetrain = new Drivetrain();
-    public static AHRS navx = new AHRS(SPI.Port.kMXP);
+    public static final Drivetrain drivetrain = new Drivetrain();
+    public static final AHRS navx = new AHRS(SPI.Port.kMXP);
 
     Command m_autonomousCommand;
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+    final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
