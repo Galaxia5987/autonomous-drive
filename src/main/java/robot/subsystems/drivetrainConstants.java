@@ -26,13 +26,13 @@ public class drivetrainConstants {
     public static final double kBeta = 2;
     public static final double kZeta = 0.7;
 
-    public static final double kVDriveLeftLow = 0; // Volts per radians per second - Calculated emperically 1.98
-    public static final double kADriveLeftLow = 0; // Volts per radians per second per second 0.909
-    public static final double kVInterceptLeftLow = 0; // Volts 1.43
+    public static final double kVDriveLeftLow = 0.274; // Volts per radians per second - Calculated emperically 1.98
+    public static final double kADriveLeftLow = 0.032; // Volts per radians per second per second 0.909
+    public static final double kVInterceptLeftLow = 1.05; // Volts 1.43
 
-    public static final double kVDriveRightLow = 0; // Volts per radians per second - Calculated emperically 1.88
-    public static final double kADriveRightLow = 0; // Volts per radians per second per second 0.811
-    public static final double kVInterceptRightLow = 0; // Volts 1.42
+    public static final double kVDriveRightLow = 0.265; // Volts per radians per second - Calculated emperically 1.88
+    public static final double kADriveRightLow = 0.031; // Volts per radians per second per second 0.811
+    public static final double kVInterceptRightLow = 1.02; // Volts 1.42
 
     public static final double MOMENT_OF_INERTIA = 10;// kg m^2
     public static final double ANGULAR_DRAG = 12;// N*m / (rad/sec)
@@ -40,6 +40,9 @@ public class drivetrainConstants {
 //    public static final double[] RIGHT_TALON_VELOCITY_PID ={2.68, 0, 0, 0};//kP, kI, kD, kF
     public static final double[] RIGHT_TALON_VELOCITY_PID = {4, 0.006, 10 ,0};
     public static final double[] LEFT_TALON_VELOCITY_PID = {4, 0.006, 10, 0.1};
+
+    public static final double[] RIGHT_TALON_VELOCITY_PID_MODEL =  {4, 0.006, 10 ,0};
+    public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10 ,0};
 
 //******************
 //***Constraints****

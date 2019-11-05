@@ -36,7 +36,8 @@ import java.util.List;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
-    public static Drivetrain drivetrain = new Drivetrain();
+    public static boolean newRam = true;
+    public static Drivetrain drivetrain = new Drivetrain(newRam);
     public static AHRS navx = new AHRS(SPI.Port.kMXP);
 
     Command m_autonomousCommand;

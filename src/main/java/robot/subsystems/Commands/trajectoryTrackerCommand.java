@@ -45,9 +45,6 @@ public class trajectoryTrackerCommand extends Command {
 
     @Override
     protected void initialize() {
-
-        drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(1), Rotation2dKt.getDegree(0)));
-
         if (waypoints != null) {
             waypoints.add(0, drivetrain.localization.getRobotPosition());
             this.trajectory = drivetrain.generateTrajectory(waypoints, startingVelocity, endingVelocity, reversed);
@@ -61,7 +58,7 @@ public class trajectoryTrackerCommand extends Command {
     protected void execute() {
         SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
-        if (!newRam) {
+        if (newRam) {
             drivetrain.setOutput(trackerOutput);
         } else {
             double linearVelocity = trackerOutput.getLinearVelocity().getValue();//m/s

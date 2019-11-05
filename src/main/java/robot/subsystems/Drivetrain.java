@@ -54,7 +54,7 @@ public class Drivetrain extends TankDriveSubsystem {
     public TrajectoryTracker trajectoryTracker = new RamseteTracker(drivetrainConstants.kBeta, drivetrainConstants.kZeta);
 
 
-    public Drivetrain() {
+    public Drivetrain(boolean newRam) {
 
 
 
@@ -78,17 +78,27 @@ public class Drivetrain extends TankDriveSubsystem {
         rightSlave2.follow(rightMaster);
 
 
+        if (!newRam) {
+            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[0]);
+            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[1]);
+            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[2]);
+            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
 
-        leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[0]);
-        leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[1]);
-        leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[2]);
-        leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
+            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[0]);
+            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[1]);
+            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[2]);
+            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[3]);
+        }else {
+            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[0]);
+            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[1]);
+            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[2]);
+            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[3]);
 
-        rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[0]);
-        rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[1]);
-        rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[2]);
-        rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[3]);
-
+            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[0]);
+            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[1]);
+            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[2]);
+            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
+        }
 
         rightMaster.configVoltageCompSaturation(11.0);
         leftMaster.configVoltageCompSaturation(11.0);
