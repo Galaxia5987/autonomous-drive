@@ -26,7 +26,7 @@ public class OI {
     public Joystick rightStick = new Joystick(1);
 
     public OI() {
-        A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false));
+        A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false, true));
     }
 
 

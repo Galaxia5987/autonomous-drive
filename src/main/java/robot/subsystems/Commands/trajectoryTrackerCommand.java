@@ -31,18 +31,21 @@ public class trajectoryTrackerCommand extends Command {
     private boolean reversed = false;
     private double maxVelocity = drivetrainConstants.MAX_VELOCITY;
     private double maxAcceleration = drivetrainConstants.MAX_ACCEL;
+    private boolean newRam;
 
-    public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
+    public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed, boolean newRam) {
         trajectoryTrack = drivetrain.getTrajectoryTracker();
         this.waypoints = waypoints;
         this.startingVelocity = startingVelocity;
         this.endingVelocity = endingVelocity;
         this.reversed = reversed;
+        this.newRam = newRam;
 
     }
 
     @Override
     protected void initialize() {
+
         drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(1), Rotation2dKt.getDegree(0)));
 
         if (waypoints != null) {
@@ -58,8 +61,20 @@ public class trajectoryTrackerCommand extends Command {
     protected void execute() {
         SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
-        drivetrain.setOutput(trackerOutput);
+        if (!newRam) {
+            drivetrain.setOutput(trackerOutput);
+        } else {
+            double linearVelocity = trackerOutput.getLinearVelocity().getValue();//m/s
+            double angularVelocity = trackerOutput.getAngularVelocity().getValue();//m/s
 
+
+            double tangenialVelocity = drivetrainConstants.ROBOT_WIDTH / 2.0 * angularVelocity; // Multiply angular velocity by the robot radius to get the tangenial velocity
+
+            double leftVelocity = linearVelocity - tangenialVelocity;
+            double rightVelocity = linearVelocity + tangenialVelocity;
+
+            drivetrain.setVelocity(leftVelocity, rightVelocity);
+        }
         TrajectorySamplePoint<TimedEntry<Pose2dWithCurvature>> referencePoint = trajectoryTrack.getReferencePoint();
 
         if (referencePoint != null) {
