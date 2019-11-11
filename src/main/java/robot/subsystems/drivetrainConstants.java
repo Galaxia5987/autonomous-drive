@@ -20,7 +20,7 @@ public class drivetrainConstants {
     public static final double MAX_VELOCITY = 1;
     public static final double MAX_ACCEL = 1;
 
-    public static final double WHEEL_RADIUS = 0.1524; // meters. TODO tune
+    public static final double WHEEL_DIAMATER = 0.1524; // meters. TODO tune
     public static final double ROBOT_WIDTH = 0.75; // meters
 
     public static final double kBeta = 2;
