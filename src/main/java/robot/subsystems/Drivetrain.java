@@ -40,7 +40,7 @@ public class Drivetrain extends TankDriveSubsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_RADIUS));
+    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_DIAMATER));
     public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
     public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
@@ -138,15 +138,25 @@ public class Drivetrain extends TankDriveSubsystem {
 
     }
 
-    private static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
-            drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
+    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
+            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
             drivetrainConstants.kVInterceptLeftLow);
 
 
-    private static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
-            drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.WHEEL_RADIUS * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
+    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
+            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVInterceptRightLow);
 
+
+    public static final DifferentialDrive driveModel = new DifferentialDrive(
+            drivetrainConstants.ROBOT_MASS,
+            drivetrainConstants.MOMENT_OF_INERTIA,
+            drivetrainConstants.ANGULAR_DRAG,
+            drivetrainConstants.WHEEL_DIAMATER,
+            drivetrainConstants.ROBOT_WIDTH/ 2,
+            leftTransmissionModel,
+            rightTransmissionModel
+    );
 
     public double getAngle() {
         return -navx.getAngle();
@@ -161,7 +171,7 @@ public class Drivetrain extends TankDriveSubsystem {
             drivetrainConstants.ROBOT_MASS,
             drivetrainConstants.MOMENT_OF_INERTIA,
             drivetrainConstants.ANGULAR_DRAG,
-            drivetrainConstants.WHEEL_RADIUS,
+            drivetrainConstants.WHEEL_DIAMATER,
             drivetrainConstants.ROBOT_WIDTH / 2.0,
             leftTransmissionModel,
             rightTransmissionModel
