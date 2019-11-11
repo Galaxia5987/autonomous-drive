@@ -99,8 +99,11 @@ public class Robot extends TimedRobot {
         navx.reset();
 
         drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(1), Rotation2dKt.getDegree(0)));
-        List<Pose2d> path = new ArrayList<>(Arrays.asList(new Pose2d(LengthKt.getMeter(3), LengthKt.getMeter(2), Rotation2dKt.getDegree(90))));
-        trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, false);
+        List<Pose2d> path = new ArrayList<>(Arrays.asList(new Pose2d(LengthKt.getMeter(3.5), LengthKt.getMeter(1), Rotation2dKt.getDegree(10))));
+        path.add(new Pose2d(LengthKt.getMeter(4.5), LengthKt.getMeter(2.5), Rotation2dKt.getDegree(-15)));
+        path.add(new Pose2d(LengthKt.getMeter(6), LengthKt.getMeter(1.5), Rotation2dKt.getDegree(0)));
+
+        trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
         tracker.start();
 //        velocityDrive veldrive = new velocityDrive(-2, -2);
 //        veldrive.start();
