@@ -1,5 +1,8 @@
 package robot.subsystems.Commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +17,7 @@ import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
+import robot.subsystems.Drivetrain;
 import robot.subsystems.drivetrainConstants;
 
 import java.util.List;
@@ -51,6 +55,7 @@ public class trajectoryTrackerCommand extends Command {
 
         }
         drivetrain.trajectoryTracker.reset(trajectory);
+
         LiveDashboard.INSTANCE.setFollowingPath(true);
     }
 
@@ -60,6 +65,18 @@ public class trajectoryTrackerCommand extends Command {
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
         if (newRam) {
             drivetrain.setOutput(trackerOutput);
+//            DifferentialDrive.DriveDynamics dynamics =
+//                    Drivetrain.driveModel.solveInverseDynamics(trackerOutput.getDifferentialDriveVelocity(),
+//                    trackerOutput.getDifferentialDriveAcceleration());
+//            drivetrain.leftMaster.set(ControlMode.Velocity,
+//                    (dynamics.getWheelVelocity().getLeft()*Drivetrain.driveModel.getWheelRadius())/19600,
+//                    DemandType.ArbitraryFeedForward,
+//                    dynamics.getVoltage().getLeft()/12);
+//            drivetrain.rightMaster.set(ControlMode.Velocity,
+//                    (dynamics.getWheelVelocity().getRight()* Drivetrain.driveModel.getWheelRadius())/19600,
+//                    DemandType.ArbitraryFeedForward,
+//                    dynamics.getVoltage().getRight()/12);
+//            SmartDashboard.putNumber("test", dynamics.getVoltage().getRight()/12);
         } else {
             double linearVelocity = trackerOutput.getLinearVelocity().getValue();//m/s
             double angularVelocity = trackerOutput.getAngularVelocity().getValue();//m/s
