@@ -117,12 +117,12 @@ public class Drivetrain extends TankDriveSubsystem {
 //        rightMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
 
 
-        leftMaster.setNeutralMode(NeutralMode.Brake);
-        leftSlave1.setNeutralMode(NeutralMode.Brake);
-        leftSlave2.setNeutralMode(NeutralMode.Brake);
-        rightMaster.setNeutralMode(NeutralMode.Brake);
-        rightSlave1.setNeutralMode(NeutralMode.Brake);
-        rightSlave2.setNeutralMode(NeutralMode.Brake);
+        leftMaster.setNeutralMode(NeutralMode.Coast);
+        leftSlave1.setNeutralMode(NeutralMode.Coast);
+        leftSlave2.setNeutralMode(NeutralMode.Coast);
+        rightMaster.setNeutralMode(NeutralMode.Coast);
+        rightSlave1.setNeutralMode(NeutralMode.Coast);
+        rightSlave2.setNeutralMode(NeutralMode.Coast);
 
         rightMaster.setInverted(true);
         rightSlave1.setInverted(true);
