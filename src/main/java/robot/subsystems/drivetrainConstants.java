@@ -1,14 +1,10 @@
 package robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
-import org.ghrobotics.lib.mathematics.twodim.geometry.Rectangle2d;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.constraints.CentripetalAccelerationConstraint;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.constraints.TimingConstraint;
-import org.ghrobotics.lib.mathematics.twodim.trajectory.constraints.VelocityLimitRegionConstraint;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
 import org.ghrobotics.lib.mathematics.units.derivedunits.AccelerationKt;
-import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +22,13 @@ public class drivetrainConstants {
     public static final double kBeta = 2;
     public static final double kZeta = 0.7;
 
-    public static final double kVDriveLeftLow = 0.274; // Volts per radians per second - Calculated emperically 1.98
-    public static final double kADriveLeftLow = 0.032; // Volts per radians per second per second 0.909
-    public static final double kVInterceptLeftLow = 1.05; // Volts 1.43
+    public static final double kVDriveLeftLow = mToR(1.98); // Volts per radians per second - Calculated emperically 1.98
+    public static final double kADriveLeftLow = mToR(0.909); // Volts per radians per second per second 0.909
+    public static final double kVInterceptLeftLow = mToR(1.43); // Volts 1.43
 
-    public static final double kVDriveRightLow = 0.265; // Volts per radians per second - Calculated emperically 1.88
-    public static final double kADriveRightLow = 0.031; // Volts per radians per second per second 0.811
-    public static final double kVInterceptRightLow = 1.02; // Volts 1.42
+    public static final double kVDriveRightLow = mToR(1.88); // Volts per radians per second - Calculated emperically 1.88
+    public static final double kADriveRightLow = mToR(0.811); // Volts per radians per second per second 0.811
+    public static final double kVInterceptRightLow = mToR(1.42); // Volts 1.42
 
     public static final double MOMENT_OF_INERTIA = 10;// kg m^2
     public static final double ANGULAR_DRAG = 12;// N*m / (rad/sec)
@@ -41,8 +37,13 @@ public class drivetrainConstants {
     public static final double[] RIGHT_TALON_VELOCITY_PID = {4, 0.006, 10 ,0};
     public static final double[] LEFT_TALON_VELOCITY_PID = {4, 0.006, 10, 0.1};
 
-    public static final double[] RIGHT_TALON_VELOCITY_PID_MODEL =  {4, 0.006, 10 ,0};
-    public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10 ,0};
+    public static final double[] RIGHT_TALON_VELOCITY_PID_MODEL =  {4, 0.006, 10 ,0}; //{4.4, 0.005, 18 ,0}
+    public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10 ,0}; // {4.4, 0.005, 18 ,0}
+
+    public static double mToR(double in) {
+        return in * WHEEL_DIAMATER * Math.PI / 2;
+    }
+//model
 
 //******************
 //***Constraints****
