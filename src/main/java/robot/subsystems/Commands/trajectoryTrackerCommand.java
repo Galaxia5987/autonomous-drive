@@ -1,8 +1,5 @@
 package robot.subsystems.Commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,12 +10,9 @@ import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedEntry;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TrajectorySamplePoint;
-import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
-import robot.subsystems.Drivetrain;
-import robot.subsystems.drivetrainConstants;
+import robot.Constants;
 
 import java.util.List;
 
@@ -33,8 +27,8 @@ public class trajectoryTrackerCommand extends Command {
     private TimedTrajectory<Pose2dWithCurvature> trajectory;
     private boolean finished = false;
     private boolean reversed = false;
-    private double maxVelocity = drivetrainConstants.MAX_VELOCITY;
-    private double maxAcceleration = drivetrainConstants.MAX_ACCEL;
+    private double maxVelocity = Constants.Drivetrain.MAX_VELOCITY;
+    private double maxAcceleration = Constants.Drivetrain.MAX_ACCEL;
     private boolean newRam;
 
     public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed, boolean newRam) {
@@ -82,7 +76,7 @@ public class trajectoryTrackerCommand extends Command {
             double angularVelocity = trackerOutput.getAngularVelocity().getValue();//m/s
 
 
-            double tangenialVelocity = drivetrainConstants.ROBOT_WIDTH / 2.0 * angularVelocity; // Multiply angular velocity by the robot radius to get the tangenial velocity
+            double tangenialVelocity = Constants.Drivetrain.ROBOT_WIDTH / 2.0 * angularVelocity; // Multiply angular velocity by the robot radius to get the tangenial velocity
 
             double leftVelocity = linearVelocity - tangenialVelocity;
             double rightVelocity = linearVelocity + tangenialVelocity;

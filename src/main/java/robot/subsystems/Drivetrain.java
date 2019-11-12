@@ -27,6 +27,7 @@ import org.ghrobotics.lib.subsystems.drive.TankDriveSubsystem;
 import org.ghrobotics.lib.wrappers.FalconMotor;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 import org.jetbrains.annotations.NotNull;
+import robot.Constants;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class Drivetrain extends TankDriveSubsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_DIAMATER));
+    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(Constants.Drivetrain.TICKS_PER_ROTATION), LengthKt.getMeter(Constants.Drivetrain.WHEEL_DIAMATER));
     public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
     public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
@@ -51,7 +52,7 @@ public class Drivetrain extends TankDriveSubsystem {
     );
 
 
-    public TrajectoryTracker trajectoryTracker = new RamseteTracker(drivetrainConstants.kBeta, drivetrainConstants.kZeta);
+    public TrajectoryTracker trajectoryTracker = new RamseteTracker(Constants.Drivetrain.kBeta, Constants.Drivetrain.kZeta);
 
 
     public Drivetrain(boolean newRam) {
@@ -79,25 +80,25 @@ public class Drivetrain extends TankDriveSubsystem {
 
 
         if (!newRam) {
-            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[0]);
-            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[1]);
-            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[2]);
-            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
+            leftMaster.config_kP(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[0]);
+            leftMaster.config_kI(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[1]);
+            leftMaster.config_kD(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[2]);
+            leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
 
-            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[0]);
-            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[1]);
-            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[2]);
-            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[3]);
+            rightMaster.config_kP(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[0]);
+            rightMaster.config_kI(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[1]);
+            rightMaster.config_kD(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[2]);
+            rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[3]);
         }else {
-            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[0]);
-            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[1]);
-            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[2]);
-            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[3]);
+            leftMaster.config_kP(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[0]);
+            leftMaster.config_kI(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[1]);
+            leftMaster.config_kD(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[2]);
+            leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[3]);
 
-            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[0]);
-            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[1]);
-            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[2]);
-            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
+            rightMaster.config_kP(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[0]);
+            rightMaster.config_kI(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[1]);
+            rightMaster.config_kD(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[2]);
+            rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
         }
 
         rightMaster.configVoltageCompSaturation(11.0);
@@ -138,22 +139,22 @@ public class Drivetrain extends TankDriveSubsystem {
 
     }
 
-    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
-            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
-            drivetrainConstants.kVInterceptLeftLow);
+    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / Constants.Drivetrain.kVDriveLeftLow,
+            Constants.Drivetrain.WHEEL_DIAMATER * Constants.Drivetrain.WHEEL_DIAMATER * Constants.Drivetrain.ROBOT_MASS / (2.0 * Constants.Drivetrain.kADriveLeftLow),
+            Constants.Drivetrain.kVInterceptLeftLow);
 
 
-    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
-            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
-            drivetrainConstants.kVInterceptRightLow);
+    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / Constants.Drivetrain.kVDriveRightLow,
+            Constants.Drivetrain.WHEEL_DIAMATER * Constants.Drivetrain.WHEEL_DIAMATER * Constants.Drivetrain.ROBOT_MASS / (2.0 * Constants.Drivetrain.kADriveRightLow),
+            Constants.Drivetrain.kVInterceptRightLow);
 
 
     public static final DifferentialDrive driveModel = new DifferentialDrive(
-            drivetrainConstants.ROBOT_MASS,
-            drivetrainConstants.MOMENT_OF_INERTIA,
-            drivetrainConstants.ANGULAR_DRAG,
-            drivetrainConstants.WHEEL_DIAMATER,
-            drivetrainConstants.ROBOT_WIDTH/ 2,
+            Constants.Drivetrain.ROBOT_MASS,
+            Constants.Drivetrain.MOMENT_OF_INERTIA,
+            Constants.Drivetrain.ANGULAR_DRAG,
+            Constants.Drivetrain.WHEEL_DIAMATER,
+            Constants.Drivetrain.ROBOT_WIDTH/ 2,
             leftTransmissionModel,
             rightTransmissionModel
     );
@@ -168,22 +169,22 @@ public class Drivetrain extends TankDriveSubsystem {
 
 
     private static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
-            drivetrainConstants.ROBOT_MASS,
-            drivetrainConstants.MOMENT_OF_INERTIA,
-            drivetrainConstants.ANGULAR_DRAG,
-            drivetrainConstants.WHEEL_DIAMATER,
-            drivetrainConstants.ROBOT_WIDTH / 2.0,
+            Constants.Drivetrain.ROBOT_MASS,
+            Constants.Drivetrain.MOMENT_OF_INERTIA,
+            Constants.Drivetrain.ANGULAR_DRAG,
+            Constants.Drivetrain.WHEEL_DIAMATER,
+            Constants.Drivetrain.ROBOT_WIDTH / 2.0,
             leftTransmissionModel,
             rightTransmissionModel
     );
 
 
     public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
-        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, drivetrainConstants.constraints,
+        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, Constants.Drivetrain.constraints,
                 VelocityKt.getVelocity(LengthKt.getMeter(startingVelocity)),
                 VelocityKt.getVelocity(LengthKt.getMeter(endingVelocity)),
-                VelocityKt.getVelocity(LengthKt.getMeter(drivetrainConstants.MAX_VELOCITY)),
-                AccelerationKt.getAcceleration(LengthKt.getMeter(drivetrainConstants.MAX_ACCEL)),
+                VelocityKt.getVelocity(LengthKt.getMeter(Constants.Drivetrain.MAX_VELOCITY)),
+                AccelerationKt.getAcceleration(LengthKt.getMeter(Constants.Drivetrain.MAX_ACCEL)),
                 reversed,
                 true
         );

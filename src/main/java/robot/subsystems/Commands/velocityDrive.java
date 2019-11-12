@@ -3,7 +3,7 @@ package robot.subsystems.Commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.subsystems.drivetrainConstants;
+import robot.Constants;
 
 import static robot.Robot.drivetrain;
 
@@ -25,9 +25,9 @@ public class velocityDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         if (leftVel < 0)
-            drivetrain.leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]*-1.5);
+            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]*-1.5);
         else
-            drivetrain.leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
+            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
         System.out.println("begin");
         timer.start();
         final double v = 0;
