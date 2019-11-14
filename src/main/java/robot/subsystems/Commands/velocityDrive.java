@@ -15,6 +15,7 @@ public class velocityDrive extends Command {
     double leftVel;
     double rightVel;
     Timer timer = new Timer();
+
     public velocityDrive(double leftVel, double rightVel) {
         this.leftVel = leftVel;
         this.rightVel = rightVel;
@@ -25,7 +26,7 @@ public class velocityDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         if (leftVel < 0)
-            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]*-1.5);
+            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3] * -1.5);
         else
             drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
         System.out.println("begin");
@@ -36,12 +37,12 @@ public class velocityDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(timer.get() > 0) {
+        if (timer.get() > 0) {
 
             drivetrain.setVelocity(leftVel, rightVel);
         }
-            SmartDashboard.putNumber("right Vel", drivetrain.getRightVelocity());
-            SmartDashboard.putNumber("left Vel", drivetrain.getLeftVelocity());
+        SmartDashboard.putNumber("right Vel", drivetrain.getRightVelocity());
+        SmartDashboard.putNumber("left Vel", drivetrain.getLeftVelocity());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,7 +52,7 @@ public class velocityDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        drivetrain.setSpeed(0,0);
+        drivetrain.setSpeed(0, 0);
         timer.reset();
     }
 

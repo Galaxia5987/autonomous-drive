@@ -8,23 +8,21 @@
 package robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.Rotation2d;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import robot.subsystems.Commands.trajectoryTrackerCommand;
-import robot.subsystems.Commands.velocityDrive;
 import robot.subsystems.Drivetrain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 
 /**
@@ -119,8 +117,7 @@ public class Robot extends TimedRobot {
      * This function is called periodically during autonomous.
      */
     @Override
-    public void autonomousPeriodic()
-    {
+    public void autonomousPeriodic() {
         SmartDashboard.putNumber("angle", drivetrain.getAngle());
         SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
         SmartDashboard.putNumber("y distance", drivetrain.localization.getRobotPosition().getTranslation().getY().getValue());

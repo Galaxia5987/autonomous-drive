@@ -58,7 +58,6 @@ public class Drivetrain extends TankDriveSubsystem {
     public Drivetrain(boolean newRam) {
 
 
-
         Notifier localizationNotifier = new Notifier(() -> {
             localization.update();
         });
@@ -89,7 +88,7 @@ public class Drivetrain extends TankDriveSubsystem {
             rightMaster.config_kI(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[1]);
             rightMaster.config_kD(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[2]);
             rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[3]);
-        }else {
+        } else {
             leftMaster.config_kP(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[0]);
             leftMaster.config_kI(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[1]);
             leftMaster.config_kD(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID_MODEL[2]);
@@ -130,11 +129,11 @@ public class Drivetrain extends TankDriveSubsystem {
         rightSlave2.setInverted(true);
     }
 
-    public double getRightVelocity(){
+    public double getRightVelocity() {
         return rightMaster.getSensorVelocity().getValue();
     }
 
-    public double getLeftVelocity(){
+    public double getLeftVelocity() {
         return leftMaster.getSensorVelocity().getValue();
 
     }
@@ -154,7 +153,7 @@ public class Drivetrain extends TankDriveSubsystem {
             Constants.Drivetrain.MOMENT_OF_INERTIA,
             Constants.Drivetrain.ANGULAR_DRAG,
             Constants.Drivetrain.WHEEL_DIAMATER,
-            Constants.Drivetrain.ROBOT_WIDTH/ 2,
+            Constants.Drivetrain.ROBOT_WIDTH / 2,
             leftTransmissionModel,
             rightTransmissionModel
     );
@@ -215,11 +214,12 @@ public class Drivetrain extends TankDriveSubsystem {
     }
 
 
-    public void setVelocity(double leftVelocity, double rightVelocity){
+    public void setVelocity(double leftVelocity, double rightVelocity) {
         leftMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(leftVelocity)));
         rightMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(rightVelocity)));
     }
-    public void setSpeed(double leftPower, double rightPower){
+
+    public void setSpeed(double leftPower, double rightPower) {
         leftMaster.set(ControlMode.PercentOutput, leftPower);
         rightMaster.set(ControlMode.PercentOutput, rightPower);
     }
