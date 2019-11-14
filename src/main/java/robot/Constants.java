@@ -47,12 +47,11 @@ public class Constants {
         public static final double MOMENT_OF_INERTIA = 10;// kg m^2
         public static final double ANGULAR_DRAG = 12;// N*m / (rad/sec)
 
-        //    public static final double[] RIGHT_TALON_VELOCITY_PID ={2.68, 0, 0, 0};//kP, kI, kD, kF
         public static final double[] RIGHT_TALON_VELOCITY_PID = {4, 0.006, 10, 0};
         public static final double[] LEFT_TALON_VELOCITY_PID = {4, 0.006, 10, 0.1};
 
-        public static final double[] RIGHT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10, 0}; //{4.4, 0.005, 18 ,0}
-        public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10, 0}; // {4.4, 0.005, 18 ,0}
+        public static final double[] RIGHT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10, 0};
+        public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10, 0};
         //******************
         //***Constraints****
         //******************

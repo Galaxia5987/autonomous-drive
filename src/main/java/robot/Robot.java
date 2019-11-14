@@ -103,8 +103,6 @@ public class Robot extends TimedRobot {
 
         trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
         tracker.start();
-//        velocityDrive veldrive = new velocityDrive(-2, -2);
-//        veldrive.start();
 
         m_autonomousCommand = m_chooser.getSelected();
         if (m_autonomousCommand != null) {

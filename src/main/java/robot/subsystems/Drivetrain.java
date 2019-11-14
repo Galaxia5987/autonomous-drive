@@ -113,8 +113,6 @@ public class Drivetrain extends TankDriveSubsystem {
         leftSlave2.enableVoltageCompensation(true);
         rightSlave1.enableVoltageCompensation(true);
         rightSlave2.enableVoltageCompensation(true);
-//        leftMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
-//        rightMaster.configSelectedFeedbackCoefficient(1.0/1935.0);
 
 
         leftMaster.setNeutralMode(NeutralMode.Coast);

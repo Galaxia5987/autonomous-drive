@@ -59,18 +59,6 @@ public class trajectoryTrackerCommand extends Command {
         TrajectoryTrackerOutput trackerOutput = drivetrain.trajectoryTracker.nextState(drivetrain.localization.getRobotPosition(), TimeUnitsKt.getSecond(Timer.getFPGATimestamp()));
         if (newRam) {
             drivetrain.setOutput(trackerOutput);
-//            DifferentialDrive.DriveDynamics dynamics =
-//                    Drivetrain.driveModel.solveInverseDynamics(trackerOutput.getDifferentialDriveVelocity(),
-//                    trackerOutput.getDifferentialDriveAcceleration());
-//            drivetrain.leftMaster.set(ControlMode.Velocity,
-//                    (dynamics.getWheelVelocity().getLeft()*Drivetrain.driveModel.getWheelRadius())/19600,
-//                    DemandType.ArbitraryFeedForward,
-//                    dynamics.getVoltage().getLeft()/12);
-//            drivetrain.rightMaster.set(ControlMode.Velocity,
-//                    (dynamics.getWheelVelocity().getRight()* Drivetrain.driveModel.getWheelRadius())/19600,
-//                    DemandType.ArbitraryFeedForward,
-//                    dynamics.getVoltage().getRight()/12);
-//            SmartDashboard.putNumber("test", dynamics.getVoltage().getRight()/12);
         } else {
             double linearVelocity = trackerOutput.getLinearVelocity().getValue();//m/s
             double angularVelocity = trackerOutput.getAngularVelocity().getValue();//m/s
