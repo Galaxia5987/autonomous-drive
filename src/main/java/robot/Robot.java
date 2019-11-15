@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
-import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import robot.subsystems.Commands.trajectoryTrackerCommand;
 import robot.subsystems.Drivetrain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static robot.Utilities.genPoint;
 
 
 /**
@@ -96,10 +96,10 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         navx.reset();
 
-        drivetrain.localization.reset(new Pose2d(LengthKt.getMeter(1), LengthKt.getMeter(1), Rotation2dKt.getDegree(0)));
-        List<Pose2d> path = new ArrayList<>(Arrays.asList(new Pose2d(LengthKt.getMeter(3.5), LengthKt.getMeter(1), Rotation2dKt.getDegree(10))));
-        path.add(new Pose2d(LengthKt.getMeter(4.5), LengthKt.getMeter(2.5), Rotation2dKt.getDegree(-15)));
-        path.add(new Pose2d(LengthKt.getMeter(6), LengthKt.getMeter(1.5), Rotation2dKt.getDegree(0)));
+        drivetrain.localization.reset(genPoint(1, 1, 0));
+        List<Pose2d> path = new ArrayList<>(Arrays.asList(genPoint(3.5, 1, 10)));
+        path.add(genPoint(4.5, 2.5, -15));
+        path.add(genPoint(6, 1.5, 0));
 
         trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
         tracker.start();
