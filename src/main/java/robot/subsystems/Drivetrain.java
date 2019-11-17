@@ -33,13 +33,8 @@ import java.util.List;
 
 import static robot.Robot.navx;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
 public class Drivetrain extends TankDriveSubsystem {
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
 
     private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(Constants.Drivetrain.TICKS_PER_ROTATION), LengthKt.getMeter(Constants.Drivetrain.WHEEL_DIAMATER));
     public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
