@@ -20,16 +20,14 @@ import static robot.Robot.drivetrain;
 
 public class trajectoryTrackerCommand extends Command {
 
-    private TrajectoryTracker trajectoryTrack;
-    private List<Pose2d> waypoints;
-    private double startingVelocity;
-    private double endingVelocity;
-    private TimedTrajectory<Pose2dWithCurvature> trajectory;
+    private TrajectoryTracker trajectoryTrack;//The tracker itself, taken from the drivetrain and is the main object that runs.
+    private List<Pose2d> waypoints;//A list of the waypoints which make the path our robot drives in
+    private double startingVelocity;//Starting velocity for the drive command
+    private double endingVelocity;//Ending velocity for the drive command
+    private TimedTrajectory<Pose2dWithCurvature> trajectory;//
     private boolean finished = false;
-    private boolean reversed = false;
-    private double maxVelocity = Constants.Drivetrain.MAX_VELOCITY;
-    private double maxAcceleration = Constants.Drivetrain.MAX_ACCEL;
-    private boolean newRam;
+    private boolean reversed = false;//Boolean representing whether the robot is reversed or not
+    private boolean newRam;//Boolean which indicates whether we are running with or without the drive model
 
     public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed, boolean newRam) {
         trajectoryTrack = drivetrain.getTrajectoryTracker();
