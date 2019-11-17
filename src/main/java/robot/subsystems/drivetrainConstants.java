@@ -41,7 +41,7 @@ public class drivetrainConstants {
     public static final double[] LEFT_TALON_VELOCITY_PID_MODEL = {4, 0.006, 10 ,0}; // {4.4, 0.005, 18 ,0}
 
     public static double mToR(double in) {
-        return in * WHEEL_DIAMATER * Math.PI / 2;
+        return in * WHEEL_DIAMATER /2;
     }
 //model
 
