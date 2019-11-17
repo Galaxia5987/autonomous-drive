@@ -12,7 +12,7 @@ public class Utilities {
      * @return wheel radians.
      */
     public static double metersToRadians(double meters) {
-        return meters * Constants.Drivetrain.WHEEL_DIAMATER * Math.PI / 2;
+        return meters * Constants.Drivetrain.WHEEL_DIAMATER / 2;
     }
 
     /**
