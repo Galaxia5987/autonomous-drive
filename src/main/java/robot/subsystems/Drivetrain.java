@@ -139,12 +139,12 @@ public class Drivetrain extends TankDriveSubsystem {
     }
 
     public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
-            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
+            (drivetrainConstants.WHEEL_DIAMATER/2) * (drivetrainConstants.WHEEL_DIAMATER/2)   * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
             drivetrainConstants.kVInterceptLeftLow);
 
 
     public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
-            drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.WHEEL_DIAMATER * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
+            (drivetrainConstants.WHEEL_DIAMATER/2) * (drivetrainConstants.WHEEL_DIAMATER/2) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
             drivetrainConstants.kVInterceptRightLow);
 
 
