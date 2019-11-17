@@ -8,7 +8,8 @@ import robot.Constants;
 import static robot.Robot.drivetrain;
 
 /**
- *
+ * velocityDrive is a command which drives by a given velocity using the talonSRX velocity control mode.
+ * The command is mostly used for tuning velocity pid for the autonomous drive.
  */
 public class velocityDrive extends Command {
 
@@ -19,12 +20,11 @@ public class velocityDrive extends Command {
     public velocityDrive(double leftVel, double rightVel) {
         this.leftVel = leftVel;
         this.rightVel = rightVel;
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     }
 
-    // Called just before this Command runs the first time
+//     Called just before this Command runs the first time
     protected void initialize() {
+        //Added kf incase of driving backwards, needed because of the imbalance of the mechanism itself.
         if (leftVel < 0)
             drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3] * -1.5);
         else
