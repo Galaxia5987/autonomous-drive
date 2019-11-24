@@ -39,6 +39,14 @@ public class Drivetrain extends TankDriveSubsystem {
     private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(Constants.Drivetrain.TICKS_PER_ROTATION), LengthKt.getMeter(Constants.Drivetrain.WHEEL_DIAMATER));
     public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
     public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    public final VictorSPX leftSlave1 = new VictorSPX(4);
+    public final VictorSPX leftSlave2 = new VictorSPX(5);
+    public final VictorSPX rightSlave1 = new VictorSPX(7);
+    public final VictorSPX rightSlave2 = new VictorSPX(8);
+
+
+
+
 
     public Localization localization = new TankEncoderLocalization(
             () -> Rotation2dKt.getDegree(getAngle()),
@@ -62,14 +70,10 @@ public class Drivetrain extends TankDriveSubsystem {
         rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 
-        VictorSPX leftSlave1 = new VictorSPX(4);
         leftSlave1.follow(leftMaster);
-        VictorSPX leftSlave2 = new VictorSPX(5);
         leftSlave2.follow(leftMaster);
 
-        VictorSPX rightSlave1 = new VictorSPX(7);
         rightSlave1.follow(rightMaster);
-        VictorSPX rightSlave2 = new VictorSPX(8);
         rightSlave2.follow(rightMaster);
 
 
@@ -95,27 +99,13 @@ public class Drivetrain extends TankDriveSubsystem {
             rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
         }
 
-        rightMaster.configVoltageCompSaturation(11.0);
-        leftMaster.configVoltageCompSaturation(11.0);
-        leftSlave1.configVoltageCompSaturation(11.0);
-        leftSlave2.configVoltageCompSaturation(11.0);
-        rightSlave1.configVoltageCompSaturation(11.0);
-        rightSlave2.configVoltageCompSaturation(11.0);
-
-        rightMaster.enableVoltageCompensation(true);
-        leftMaster.enableVoltageCompensation(true);
-        leftSlave1.enableVoltageCompensation(true);
-        leftSlave2.enableVoltageCompensation(true);
-        rightSlave1.enableVoltageCompensation(true);
-        rightSlave2.enableVoltageCompensation(true);
 
 
-        leftMaster.setNeutralMode(NeutralMode.Coast);
-        leftSlave1.setNeutralMode(NeutralMode.Coast);
-        leftSlave2.setNeutralMode(NeutralMode.Coast);
-        rightMaster.setNeutralMode(NeutralMode.Coast);
-        rightSlave1.setNeutralMode(NeutralMode.Coast);
-        rightSlave2.setNeutralMode(NeutralMode.Coast);
+
+
+        allMotorsToCoast();
+        enableVoltageCompensation();
+        setVoltageCompensationSaturation(11);
 
         rightMaster.setInverted(true);
         rightSlave1.setInverted(true);
@@ -124,6 +114,33 @@ public class Drivetrain extends TankDriveSubsystem {
 
     public double getRightVelocity() {
         return rightMaster.getSensorVelocity().getValue();
+    }
+
+    public void allMotorsToCoast(){
+        leftMaster.setNeutralMode(NeutralMode.Coast);
+        leftSlave1.setNeutralMode(NeutralMode.Coast);
+        leftSlave2.setNeutralMode(NeutralMode.Coast);
+        rightMaster.setNeutralMode(NeutralMode.Coast);
+        rightSlave1.setNeutralMode(NeutralMode.Coast);
+        rightSlave2.setNeutralMode(NeutralMode.Coast);
+    }
+
+    public void enableVoltageCompensation(){
+        rightMaster.enableVoltageCompensation(true);
+        leftMaster.enableVoltageCompensation(true);
+        leftSlave1.enableVoltageCompensation(true);
+        leftSlave2.enableVoltageCompensation(true);
+        rightSlave1.enableVoltageCompensation(true);
+        rightSlave2.enableVoltageCompensation(true);
+    }
+
+    public void setVoltageCompensationSaturation(double value){
+        rightMaster.configVoltageCompSaturation(value);
+        leftMaster.configVoltageCompSaturation(value);
+        leftSlave1.configVoltageCompSaturation(value);
+        leftSlave2.configVoltageCompSaturation(value);
+        rightSlave1.configVoltageCompSaturation(value);
+        rightSlave2.configVoltageCompSaturation(value);
     }
 
     public double getLeftVelocity() {
