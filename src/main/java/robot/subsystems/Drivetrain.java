@@ -37,12 +37,12 @@ public class Drivetrain extends TankDriveSubsystem {
 
 
     private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(Constants.Drivetrain.TICKS_PER_ROTATION), LengthKt.getMeter(Constants.Drivetrain.WHEEL_DIAMATER));
-    public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    public final VictorSPX leftSlave1 = new VictorSPX(4);
-    public final VictorSPX leftSlave2 = new VictorSPX(5);
-    public final VictorSPX rightSlave1 = new VictorSPX(7);
-    public final VictorSPX rightSlave2 = new VictorSPX(8);
+    private final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    private final VictorSPX leftSlave1 = new VictorSPX(4);
+    private final VictorSPX leftSlave2 = new VictorSPX(5);
+    private final VictorSPX rightSlave1 = new VictorSPX(7);
+    private final VictorSPX rightSlave2 = new VictorSPX(8);
 
 
 

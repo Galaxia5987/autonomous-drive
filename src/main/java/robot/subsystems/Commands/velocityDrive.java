@@ -25,10 +25,10 @@ public class velocityDrive extends Command {
 //     Called just before this Command runs the first time
     protected void initialize() {
         //Added kf incase of driving backwards, needed because of the imbalance of the mechanism itself.
-        if (leftVel < 0)
-            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3] * -1.5);
-        else
-            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
+//        if (leftVel < 0)
+//            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3] * -1.5);
+//        else
+//            drivetrain.leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
         System.out.println("begin");
         timer.start();
         final double v = 0;
