@@ -3,7 +3,9 @@ package robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 import com.team254.lib.physics.DCMotorTransmission;
 import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Notifier;
@@ -28,6 +30,7 @@ import org.ghrobotics.lib.wrappers.FalconMotor;
 import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
 import org.jetbrains.annotations.NotNull;
 import robot.Constants;
+import robot.utilities.CustomTalonConfigs;
 
 import java.util.List;
 
@@ -98,8 +101,6 @@ public class Drivetrain extends TankDriveSubsystem {
             rightMaster.config_kD(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[2]);
             rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
         }
-
-
 
 
 
