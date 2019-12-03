@@ -8,17 +8,12 @@
 package robot;
 
 
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    private XboxController xbox = new XboxController(2);
-    private Button A = new JoystickButton(xbox, 1);
-
     public OI() {
-        A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false));
     }
 
 
