@@ -13,15 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import robot.subsystems.Drivetrain;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static robot.Utilities.genPoint;
 
 
 /**
