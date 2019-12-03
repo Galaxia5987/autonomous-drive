@@ -1,19 +1,19 @@
 package robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
 
-public class CustomTalonConfigs {
+public class CustomVictorConfigs {
 
 
     private NeutralMode neutralMode;
     private FeedbackDevice feedbackDevice;
     private boolean enableVoltageCompensation;
-    public TalonSRXConfiguration motorConfigs = new TalonSRXConfiguration();
+    public VictorSPXConfiguration motorConfigs = new VictorSPXConfiguration();
 
 
-    public CustomTalonConfigs() {
+    public CustomVictorConfigs() {
 
         neutralMode = NeutralMode.Coast;
         feedbackDevice = FeedbackDevice.CTRE_MagEncoder_Absolute;
@@ -46,19 +46,19 @@ public class CustomTalonConfigs {
         this.enableVoltageCompensation = enableVoltageCompensation;
     }
 
-    public void setPrimaryPID(TalonSRXPIDSetConfiguration primaryPID) {
+    public void setPrimaryPID(VictorSPXPIDSetConfiguration primaryPID) {
         this.motorConfigs.primaryPID = primaryPID;
     }
 
-    public void setAuxiliaryPID(TalonSRXPIDSetConfiguration auxiliaryPID) {
+    public void setAuxiliaryPID(VictorSPXPIDSetConfiguration auxiliaryPID) {
         this.motorConfigs.auxiliaryPID = auxiliaryPID;
     }
 
-    public void setForwardLimitSwitchSource(LimitSwitchSource forwardLimitSwitchSource) {
+    public void setForwardLimitSwitchSource(RemoteLimitSwitchSource forwardLimitSwitchSource) {
         this.motorConfigs.forwardLimitSwitchSource = forwardLimitSwitchSource;
     }
 
-    public void setReverseLimitSwitchSource(LimitSwitchSource reverseLimitSwitchSource) {
+    public void setReverseLimitSwitchSource(RemoteLimitSwitchSource reverseLimitSwitchSource) {
         this.motorConfigs.reverseLimitSwitchSource = reverseLimitSwitchSource;
     }
 
@@ -78,19 +78,19 @@ public class CustomTalonConfigs {
         this.motorConfigs.reverseLimitSwitchNormal = reverseLimitSwitchNormal;
     }
 
-    public void setSum0Term(FeedbackDevice sum0Term) {
+    public void setSum0Term(RemoteFeedbackDevice sum0Term) {
         this.motorConfigs.sum0Term = sum0Term;
     }
 
-    public void setSum1Term(FeedbackDevice sum1Term) {
+    public void setSum1Term(RemoteFeedbackDevice sum1Term) {
         this.motorConfigs.sum1Term = sum1Term;
     }
 
-    public void setDiff0Term(FeedbackDevice diff0Term) {
+    public void setDiff0Term(RemoteFeedbackDevice diff0Term) {
         this.motorConfigs.diff0Term = diff0Term;
     }
 
-    public void setDiff1Term(FeedbackDevice diff1Term) {
+    public void setDiff1Term(RemoteFeedbackDevice diff1Term) {
         this.motorConfigs.diff1Term = diff1Term;
     }
 
