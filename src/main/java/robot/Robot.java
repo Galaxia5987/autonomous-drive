@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
-import robot.subsystems.Commands.trajectoryTrackerCommand;
 import robot.subsystems.Drivetrain;
 
 import java.util.ArrayList;
@@ -34,8 +33,7 @@ import static robot.Utilities.genPoint;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
-    public static boolean newRam = true;
-    public static Drivetrain drivetrain = new Drivetrain(newRam);
+    public static Drivetrain drivetrain = new Drivetrain();
     public static AHRS navx = new AHRS(SPI.Port.kMXP);
 
     Command m_autonomousCommand;
@@ -96,14 +94,6 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         navx.reset();
 
-        drivetrain.localization.reset(genPoint(1, 1, 0));
-        List<Pose2d> path = new ArrayList<>(Arrays.asList(genPoint(3.5, 1, 10)));
-        path.add(genPoint(4.5, 2.5, -15));
-        path.add(genPoint(6, 1.5, 0));
-
-        trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
-        tracker.start();
-
         m_autonomousCommand = m_chooser.getSelected();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.start();
@@ -116,17 +106,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        SmartDashboard.putNumber("angle", drivetrain.getAngle());
-        SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
-        SmartDashboard.putNumber("y distance", drivetrain.localization.getRobotPosition().getTranslation().getY().getValue());
-
         Scheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-        SmartDashboard.putNumber("x distance", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
-
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
@@ -138,8 +122,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        drivetrain.tankDrive(-m_oi.leftStick.getY(), -m_oi.rightStick.getY());
-        SmartDashboard.putNumber("distance x", drivetrain.localization.getRobotPosition().getTranslation().getX().getValue());
     }
 
     /**
