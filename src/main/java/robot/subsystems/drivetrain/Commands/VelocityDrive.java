@@ -1,21 +1,22 @@
-package robot.subsystems.Commands;
+package robot.subsystems.drivetrain.Commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.subsystems.drivetrainConstants;
 
+import static robot.Constants.Drivetrain.LEFT_TALON_VELOCITY_PID;
 import static robot.Robot.drivetrain;
 
 /**
  *
  */
-public class velocityDrive extends Command {
+public class VelocityDrive extends Command {
 
     double leftVel;
     double rightVel;
     Timer timer = new Timer();
-    public velocityDrive(double leftVel, double rightVel) {
+
+    public VelocityDrive(double leftVel, double rightVel) {
         this.leftVel = leftVel;
         this.rightVel = rightVel;
         // Use requires() here to declare subsystem dependencies
@@ -25,9 +26,9 @@ public class velocityDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         if (leftVel < 0)
-            drivetrain.leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]*-1.5);
+            drivetrain.leftMaster.config_kF(0, LEFT_TALON_VELOCITY_PID[3] * -1.5);
         else
-            drivetrain.leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
+            drivetrain.leftMaster.config_kF(0, LEFT_TALON_VELOCITY_PID[3]);
         System.out.println("begin");
         timer.start();
         final double v = 0;
@@ -36,12 +37,12 @@ public class velocityDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(timer.get() > 0) {
+        if (timer.get() > 0) {
 
             drivetrain.setVelocity(leftVel, rightVel);
         }
-            SmartDashboard.putNumber("right Vel", drivetrain.getRightVelocity());
-            SmartDashboard.putNumber("left Vel", drivetrain.getLeftVelocity());
+        SmartDashboard.putNumber("right Vel", drivetrain.getRightVelocity());
+        SmartDashboard.putNumber("left Vel", drivetrain.getLeftVelocity());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,7 +52,7 @@ public class velocityDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        drivetrain.setSpeed(0,0);
+        drivetrain.setSpeed(0, 0);
         timer.reset();
     }
 

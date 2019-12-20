@@ -1,8 +1,5 @@
-package robot.subsystems.Commands;
+package robot.subsystems.drivetrain.Commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.team254.lib.physics.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,18 +10,15 @@ import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2dWithCurvature;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedEntry;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TimedTrajectory;
 import org.ghrobotics.lib.mathematics.twodim.trajectory.types.TrajectorySamplePoint;
-import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
 import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
 import org.ghrobotics.lib.subsystems.drive.TrajectoryTrackerOutput;
-import robot.subsystems.Drivetrain;
-import robot.subsystems.drivetrainConstants;
+import static robot.Constants.Drivetrain.*;
 
 import java.util.List;
 
 import static robot.Robot.drivetrain;
 
-public class trajectoryTrackerCommand extends Command {
+public class TrajectoryTrackerCommand extends Command {
 
     private TrajectoryTracker trajectoryTrack;
     private List<Pose2d> waypoints;
@@ -33,11 +27,11 @@ public class trajectoryTrackerCommand extends Command {
     private TimedTrajectory<Pose2dWithCurvature> trajectory;
     private boolean finished = false;
     private boolean reversed = false;
-    private double maxVelocity = drivetrainConstants.MAX_VELOCITY;
-    private double maxAcceleration = drivetrainConstants.MAX_ACCEL;
+    private double maxVelocity = MAX_VELOCITY;
+    private double maxAcceleration = MAX_ACCEL;
     private boolean newRam;
 
-    public trajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed, boolean newRam) {
+    public TrajectoryTrackerCommand(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed, boolean newRam) {
         trajectoryTrack = drivetrain.getTrajectoryTracker();
         this.waypoints = waypoints;
         this.startingVelocity = startingVelocity;
@@ -82,7 +76,7 @@ public class trajectoryTrackerCommand extends Command {
             double angularVelocity = trackerOutput.getAngularVelocity().getValue();//m/s
 
 
-            double tangenialVelocity = drivetrainConstants.ROBOT_WIDTH / 2.0 * angularVelocity; // Multiply angular velocity by the robot radius to get the tangenial velocity
+            double tangenialVelocity = ROBOT_WIDTH / 2.0 * angularVelocity; // Multiply angular velocity by the robot radius to get the tangenial velocity
 
             double leftVelocity = linearVelocity - tangenialVelocity;
             double rightVelocity = linearVelocity + tangenialVelocity;

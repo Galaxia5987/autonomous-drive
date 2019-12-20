@@ -1,4 +1,4 @@
-package robot.subsystems;
+package robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static robot.Constants.Drivetrain.*;
 import static robot.Robot.navx;
 
 /**
@@ -40,27 +41,45 @@ public class Drivetrain extends TankDriveSubsystem {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(drivetrainConstants.TICKS_PER_ROTATION), LengthKt.getMeter(drivetrainConstants.WHEEL_DIAMATER));
-    public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-
+    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / kVDriveLeftLow,
+            (WHEEL_DIAMATER / 2) * (WHEEL_DIAMATER / 2) * ROBOT_MASS / (2.0 * kADriveLeftLow),
+            kVInterceptLeftLow);
+    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / kVDriveRightLow,
+            (WHEEL_DIAMATER / 2) * (WHEEL_DIAMATER / 2) * ROBOT_MASS / (2.0 * kADriveRightLow),
+            kVInterceptRightLow);
+    public static final DifferentialDrive driveModel = new DifferentialDrive(
+            ROBOT_MASS,
+            MOMENT_OF_INERTIA,
+            ANGULAR_DRAG,
+            WHEEL_DIAMATER,
+            ROBOT_WIDTH / 2,
+            leftTransmissionModel,
+            rightTransmissionModel
+    );
+    private static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
+            ROBOT_MASS,
+            MOMENT_OF_INERTIA,
+            ANGULAR_DRAG,
+            WHEEL_DIAMATER,
+            ROBOT_WIDTH / 2.0,
+            leftTransmissionModel,
+            rightTransmissionModel
+    );
     public Localization localization = new TankEncoderLocalization(
             () -> Rotation2dKt.getDegree(getAngle()),
             leftMaster::getSensorPosition,
             rightMaster::getSensorPosition
     );
-
-
-    public TrajectoryTracker trajectoryTracker = new RamseteTracker(drivetrainConstants.kBeta, drivetrainConstants.kZeta);
+    public TrajectoryTracker trajectoryTracker = new RamseteTracker(kBeta, kZeta);
+    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(TICKS_PER_ROTATION), LengthKt.getMeter(WHEEL_DIAMATER));
+    public final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
+    public final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
 
 
     public Drivetrain(boolean newRam) {
 
 
-
-        Notifier localizationNotifier = new Notifier(() -> {
-            localization.update();
-        });
+        Notifier localizationNotifier = new Notifier(() -> localization.update());
         localizationNotifier.startPeriodic(1d / 100d);
 
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -79,25 +98,25 @@ public class Drivetrain extends TankDriveSubsystem {
 
 
         if (!newRam) {
-            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[0]);
-            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[1]);
-            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[2]);
-            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID[3]);
+            leftMaster.config_kP(0, LEFT_TALON_VELOCITY_PID[0]);
+            leftMaster.config_kI(0, LEFT_TALON_VELOCITY_PID[1]);
+            leftMaster.config_kD(0, LEFT_TALON_VELOCITY_PID[2]);
+            leftMaster.config_kF(0, LEFT_TALON_VELOCITY_PID[3]);
 
-            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[0]);
-            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[1]);
-            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[2]);
-            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID[3]);
-        }else {
-            leftMaster.config_kP(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[0]);
-            leftMaster.config_kI(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[1]);
-            leftMaster.config_kD(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[2]);
-            leftMaster.config_kF(0, drivetrainConstants.LEFT_TALON_VELOCITY_PID_MODEL[3]);
+            rightMaster.config_kP(0, RIGHT_TALON_VELOCITY_PID[0]);
+            rightMaster.config_kI(0, RIGHT_TALON_VELOCITY_PID[1]);
+            rightMaster.config_kD(0, RIGHT_TALON_VELOCITY_PID[2]);
+            rightMaster.config_kF(0, RIGHT_TALON_VELOCITY_PID[3]);
+        } else {
+            leftMaster.config_kP(0, LEFT_TALON_VELOCITY_PID_MODEL[0]);
+            leftMaster.config_kI(0, LEFT_TALON_VELOCITY_PID_MODEL[1]);
+            leftMaster.config_kD(0, LEFT_TALON_VELOCITY_PID_MODEL[2]);
+            leftMaster.config_kF(0, LEFT_TALON_VELOCITY_PID_MODEL[3]);
 
-            rightMaster.config_kP(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[0]);
-            rightMaster.config_kI(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[1]);
-            rightMaster.config_kD(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[2]);
-            rightMaster.config_kF(0, drivetrainConstants.RIGHT_TALON_VELOCITY_PID_MODEL[3]);
+            rightMaster.config_kP(0, RIGHT_TALON_VELOCITY_PID_MODEL[0]);
+            rightMaster.config_kI(0, RIGHT_TALON_VELOCITY_PID_MODEL[1]);
+            rightMaster.config_kD(0, RIGHT_TALON_VELOCITY_PID_MODEL[2]);
+            rightMaster.config_kF(0, RIGHT_TALON_VELOCITY_PID_MODEL[3]);
         }
 
         rightMaster.configVoltageCompSaturation(11.0);
@@ -129,34 +148,14 @@ public class Drivetrain extends TankDriveSubsystem {
         rightSlave2.setInverted(true);
     }
 
-    public double getRightVelocity(){
+    public double getRightVelocity() {
         return rightMaster.getSensorVelocity().getValue();
     }
 
-    public double getLeftVelocity(){
+    public double getLeftVelocity() {
         return leftMaster.getSensorVelocity().getValue();
 
     }
-
-    public static final DCMotorTransmission leftTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveLeftLow,
-            (drivetrainConstants.WHEEL_DIAMATER/2) * (drivetrainConstants.WHEEL_DIAMATER/2)   * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveLeftLow),
-            drivetrainConstants.kVInterceptLeftLow);
-
-
-    public static final DCMotorTransmission rightTransmissionModel = new DCMotorTransmission(1 / drivetrainConstants.kVDriveRightLow,
-            (drivetrainConstants.WHEEL_DIAMATER/2) * (drivetrainConstants.WHEEL_DIAMATER/2) * drivetrainConstants.ROBOT_MASS / (2.0 * drivetrainConstants.kADriveRightLow),
-            drivetrainConstants.kVInterceptRightLow);
-
-
-    public static final DifferentialDrive driveModel = new DifferentialDrive(
-            drivetrainConstants.ROBOT_MASS,
-            drivetrainConstants.MOMENT_OF_INERTIA,
-            drivetrainConstants.ANGULAR_DRAG,
-            drivetrainConstants.WHEEL_DIAMATER,
-            drivetrainConstants.ROBOT_WIDTH/ 2,
-            leftTransmissionModel,
-            rightTransmissionModel
-    );
 
     public double getAngle() {
         return -navx.getAngle();
@@ -166,24 +165,12 @@ public class Drivetrain extends TankDriveSubsystem {
         return trajectoryTracker;
     }
 
-
-    private static final DifferentialDrive DIFFERENTIAL_DRIVE = new DifferentialDrive(
-            drivetrainConstants.ROBOT_MASS,
-            drivetrainConstants.MOMENT_OF_INERTIA,
-            drivetrainConstants.ANGULAR_DRAG,
-            drivetrainConstants.WHEEL_DIAMATER,
-            drivetrainConstants.ROBOT_WIDTH / 2.0,
-            leftTransmissionModel,
-            rightTransmissionModel
-    );
-
-
     public TimedTrajectory<Pose2dWithCurvature> generateTrajectory(List<Pose2d> waypoints, double startingVelocity, double endingVelocity, boolean reversed) {
-        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, drivetrainConstants.constraints,
+        return TrajectoryGeneratorKt.getDefaultTrajectoryGenerator().generateTrajectory(waypoints, constraints,
                 VelocityKt.getVelocity(LengthKt.getMeter(startingVelocity)),
                 VelocityKt.getVelocity(LengthKt.getMeter(endingVelocity)),
-                VelocityKt.getVelocity(LengthKt.getMeter(drivetrainConstants.MAX_VELOCITY)),
-                AccelerationKt.getAcceleration(LengthKt.getMeter(drivetrainConstants.MAX_ACCEL)),
+                VelocityKt.getVelocity(LengthKt.getMeter(MAX_VELOCITY)),
+                AccelerationKt.getAcceleration(LengthKt.getMeter(MAX_ACCEL)),
                 reversed,
                 true
         );
@@ -214,11 +201,12 @@ public class Drivetrain extends TankDriveSubsystem {
     }
 
 
-    public void setVelocity(double leftVelocity, double rightVelocity){
+    public void setVelocity(double leftVelocity, double rightVelocity) {
         leftMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(leftVelocity)));
         rightMaster.setVelocity(VelocityKt.getVelocity(LengthKt.getMeter(rightVelocity)));
     }
-    public void setSpeed(double leftPower, double rightPower){
+
+    public void setSpeed(double leftPower, double rightPower) {
         leftMaster.set(ControlMode.PercentOutput, leftPower);
         rightMaster.set(ControlMode.PercentOutput, rightPower);
     }

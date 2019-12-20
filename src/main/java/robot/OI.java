@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import robot.paths.Test;
-import robot.subsystems.Commands.trajectoryTrackerCommand;
+import robot.subsystems.drivetrain.Commands.TrajectoryTrackerCommand;
 
 
 /**
@@ -26,7 +26,7 @@ public class OI {
     public Joystick rightStick = new Joystick(1);
 
     public OI() {
-        A.whenPressed(new trajectoryTrackerCommand(Test.points, 0, 0, false, true));
+        A.whenPressed(new TrajectoryTrackerCommand(Test.points, 0, 0, false, true));
     }
 
 

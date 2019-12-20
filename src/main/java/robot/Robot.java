@@ -15,11 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.ghrobotics.lib.mathematics.twodim.geometry.Pose2d;
 import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.Rotation2d;
 import org.ghrobotics.lib.mathematics.units.Rotation2dKt;
-import robot.subsystems.Commands.trajectoryTrackerCommand;
-import robot.subsystems.Commands.velocityDrive;
-import robot.subsystems.Drivetrain;
+import robot.subsystems.drivetrain.Commands.TrajectoryTrackerCommand;
+import robot.subsystems.drivetrain.Drivetrain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,9 +101,9 @@ public class Robot extends TimedRobot {
         path.add(new Pose2d(LengthKt.getMeter(4.5), LengthKt.getMeter(2.5), Rotation2dKt.getDegree(-15)));
         path.add(new Pose2d(LengthKt.getMeter(6), LengthKt.getMeter(2), Rotation2dKt.getDegree(0)));
 
-        trajectoryTrackerCommand tracker = new trajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
+        TrajectoryTrackerCommand tracker = new TrajectoryTrackerCommand(path, 0, 0, false, Robot.newRam);
         tracker.start();
-//        velocityDrive veldrive = new velocityDrive(-2, -2);
+//        VelocityDrive veldrive = new VelocityDrive(-2, -2);
 //        veldrive.start();
 
         m_autonomousCommand = m_chooser.getSelected();
