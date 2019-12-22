@@ -19,8 +19,6 @@ public class Robot extends TimedRobot {
     SendableChooser<Command> m_chooser = new SendableChooser<>();
     @Override
     public void robotInit() {
-        m_oi = new OI();
-    }
 
 
 
@@ -42,12 +40,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void autonomousInit() {
-        m_autonomousCommand = m_chooser.getSelected();
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.start();
-        }
-
+    public void robotPeriodic() {
     }
     
     @Override
