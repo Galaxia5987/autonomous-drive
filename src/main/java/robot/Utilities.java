@@ -1,5 +1,6 @@
 package robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import robot.utilities.TalonConfiguration;
@@ -9,7 +10,8 @@ public class Utilities {
     public static void configAllTalons(TalonConfiguration configs, TalonSRX... talons) {
         for (TalonSRX talon : talons) {
             talon.configAllSettings(configs.motorConfigs);
-            talon.setNeutralMode(configs.getNeutralMode());
+            System.out.println("asdasdfasgadgadgadgadgagd    " + configs.getNeutralMode());
+//            talon.setNeutralMode(NeutralMode.Brake);
             talon.configSelectedFeedbackSensor(configs.getFeedbackDevice());
             talon.enableVoltageCompensation(configs.isEnableVoltageCompensation());
 
