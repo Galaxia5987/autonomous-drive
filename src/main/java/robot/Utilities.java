@@ -2,11 +2,11 @@ package robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import robot.utilities.CustomTalonConfigs;
+import robot.utilities.TalonConfiguration;
 import robot.utilities.CustomVictorConfigs;
 
 public class Utilities {
-    public static void configAllTalons(CustomTalonConfigs configs, TalonSRX... talons) {
+    public static void configAllTalons(TalonConfiguration configs, TalonSRX... talons) {
         for (TalonSRX talon : talons) {
             talon.configAllSettings(configs.motorConfigs);
             talon.setNeutralMode(configs.getNeutralMode());

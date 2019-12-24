@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 
-public class CustomTalonConfigs {
+public class TalonConfiguration {
 
 
     private NeutralMode neutralMode;
@@ -13,7 +13,7 @@ public class CustomTalonConfigs {
     public TalonSRXConfiguration motorConfigs = new TalonSRXConfiguration();
 
 
-    public CustomTalonConfigs() {
+    public TalonConfiguration() {
 
         neutralMode = NeutralMode.Coast;
         feedbackDevice = FeedbackDevice.CTRE_MagEncoder_Absolute;
@@ -23,7 +23,7 @@ public class CustomTalonConfigs {
     }
 
     public NeutralMode getNeutralMode() {
-        return neutralMode;
+        return this.neutralMode;
     }
 
     public FeedbackDevice getFeedbackDevice() {

@@ -1,67 +1,19 @@
 package robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ghrobotics.lib.mathematics.units.Length;
-import org.ghrobotics.lib.mathematics.units.LengthKt;
-import org.ghrobotics.lib.mathematics.units.TimeUnitsKt;
-import org.ghrobotics.lib.mathematics.units.derivedunits.VelocityKt;
-import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitKt;
-import org.ghrobotics.lib.mathematics.units.nativeunits.NativeUnitLengthModel;
-import org.ghrobotics.lib.wrappers.FalconMotor;
-import org.ghrobotics.lib.wrappers.ctre.FalconSRX;
-import org.jetbrains.annotations.NotNull;
-import robot.Constants;
+import robot.utilities.CustomTalonConfigs;
 
 import static robot.Robot.navx;
 
 public class Drivetrain extends Subsystem {
 
-
-    private NativeUnitLengthModel nativeUnitModel = new NativeUnitLengthModel(NativeUnitKt.getNativeUnits(Constants.Drivetrain.TICKS_PER_ROTATION), LengthKt.getMeter(Constants.Drivetrain.WHEEL_DIAMATER));
-    private final FalconSRX<Length> leftMaster = new FalconSRX<>(3, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    private final FalconSRX<Length> rightMaster = new FalconSRX<>(6, nativeUnitModel, TimeUnitsKt.getMillisecond(10));
-    private final VictorSPX leftSlave1 = new VictorSPX(4);
-    private final VictorSPX leftSlave2 = new VictorSPX(5);
-    private final VictorSPX rightSlave1 = new VictorSPX(7);
-    private final VictorSPX rightSlave2 = new VictorSPX(8);
-
-
+    private final TalonSRX testMotor = new TalonSRX(0);
     public Drivetrain() {
+        CustomTalonConfigs customConfigs = new CustomTalonConfigs();
+        customConfigs.motorConfigs.motionCurveStrength = 6;
+        customConfigs.motorConfigs.motionCruiseVelocity = 2;
 
-
-        leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-
-        leftSlave1.follow(leftMaster);
-        leftSlave2.follow(leftMaster);
-
-        rightSlave1.follow(rightMaster);
-        rightSlave2.follow(rightMaster);
-
-
-        leftMaster.config_kP(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[0]);
-        leftMaster.config_kI(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[1]);
-        leftMaster.config_kD(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[2]);
-        leftMaster.config_kF(0, Constants.Drivetrain.LEFT_TALON_VELOCITY_PID[3]);
-
-        rightMaster.config_kP(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[0]);
-        rightMaster.config_kI(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[1]);
-        rightMaster.config_kD(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[2]);
-        rightMaster.config_kF(0, Constants.Drivetrain.RIGHT_TALON_VELOCITY_PID[3]);
-
-
-        allMotorsToCoast();
-        enableVoltageCompensation();
-        setVoltageCompensationSaturation(11);
-
-        rightMaster.setInverted(true);
-        rightSlave1.setInverted(true);
-        rightSlave2.setInverted(true);
     }
 
     public double getRightVelocity() {
