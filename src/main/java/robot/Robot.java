@@ -20,10 +20,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 
+    }
+
 
 
     @Override
-    public void disabledInit() {
+    public void disabledInit(){
     }
 
     @Override
@@ -39,10 +41,7 @@ public class Robot extends TimedRobot {
 
     }
 
-    @Override
-    public void robotPeriodic() {
-    }
-    
+
     @Override
     public void autonomousPeriodic() {
 
